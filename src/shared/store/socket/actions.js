@@ -15,7 +15,8 @@ export const connectSocket = context => {
 		let socket = null;
 		const token = localStorage.getItem('token');
 		if (token) {
-			socket = io('ws://localhost:3000', {
+			/* eslint-disable no-undef */
+			socket = io(process.env.VUE_APP_SOCKET, {
 				transports: ['websocket', 'polling'],
 				auth: {
 					token,

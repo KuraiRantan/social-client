@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const customAxios = axios.create({
-	baseURL: 'http://localhost:3000',
+	/* eslint-disable no-undef */
+	baseURL: process.env.VUE_APP_BASE_URL,
 });
 
 customAxios.interceptors.request.use(config => {
