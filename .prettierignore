@@ -1,0 +1,11 @@
+# Excluir archivos y directorios específicos
+node_modules/
+dist/
+build/
+*.log
+
+# Excluir archivos con una extensión específica
+**/*.md
+
+# Excluir archivos específicos
+config.js
