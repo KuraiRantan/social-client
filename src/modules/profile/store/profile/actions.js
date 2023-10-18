@@ -1,5 +1,4 @@
 import customAxios from '@/api/index';
-import axios from '@/api/index';
 
 export const fetchUserProfile = async (context, username) => {
 	try {
@@ -17,7 +16,7 @@ export const fetchUserProfile = async (context, username) => {
 };
 
 export const createPost = async (context, post) => {
-	const { data } = await axios.post('/post', post);
+	const { data } = await customAxios.post('/post', post);
 	// data.user.photo = 'https://www.robertwalters.com.my/content/dam/robert-walters/global/images/article-images/man-with-pen-at-desk.jpg';
 	// context.commit('SET_USER', data.user);
 	// localStorage.setItem('token', data.token)

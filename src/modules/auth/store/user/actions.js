@@ -1,9 +1,8 @@
 import customAxios from '@/api/index';
-import axios from '@/api/index';
 
 export const login = async (context, credentials) => {
 	try {
-		const { data } = await axios.post('/auth/login', credentials);
+		const { data } = await customAxios.post('/auth/login', credentials);
 		data.user.imgProfile =
 			'https://www.robertwalters.com.my/content/dam/robert-walters/global/images/article-images/man-with-pen-at-desk.jpg';
 		context.commit('LOGIN', { user: data.user, token: data.token });
@@ -18,7 +17,7 @@ export const login = async (context, credentials) => {
 
 export const register = async (context, user) => {
 	try {
-		const { data } = await axios.post('/users', user);
+		const { data } = await customAxios.post('/users', user);
 	} catch (error) {
 		console.log(error);
 	}
