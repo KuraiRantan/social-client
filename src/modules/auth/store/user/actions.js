@@ -25,15 +25,18 @@ export const register = async (context, user) => {
 
 export const fetchVerifyAuthentication = async context => {
 	try {
-		const { data } = await customAxios.post('/auth/authenticated');
-		data.user.imgProfile =
-			'https://www.robertwalters.com.my/content/dam/robert-walters/global/images/article-images/man-with-pen-at-desk.jpg';
+		const token = localStorage.getItem('token');
+		if (token) {
+			const { data } = await customAxios.post('/auth/authenticated');
+			data.user.imgProfile =
+				'https://www.robertwalters.com.my/content/dam/robert-walters/global/images/article-images/man-with-pen-at-desk.jpg';
 
-		if (data) {
-			context.commit('LOGIN', { user: data.user, token: data.token });
-			context.commit('SET_NOTIFICATIONS', data.notifications);
-			context.commit('SET_FRIENDS', data.friends);
-			return true;
+			if (data) {
+				context.commit('LOGIN', { user: data.user, token: data.token });
+				context.commit('SET_NOTIFICATIONS', data.notifications);
+				context.commit('SET_FRIENDS', data.friends);
+				return true;
+			}
 		}
 		return false;
 	} catch (error) {
