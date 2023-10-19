@@ -50,7 +50,8 @@ export default {
 	methods: {
 		...mapActions('user', ['login']),
 		...mapActions('socket', ['connectSocket']),
-		async onLogin() {
+		async onLogin(e) {
+			e.preventDefault();
 			const isLogin = await this.login(this.form);
 			if (isLogin) {
 				this.connectSocket();

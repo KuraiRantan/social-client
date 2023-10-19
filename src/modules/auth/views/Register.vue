@@ -96,7 +96,8 @@ export default {
 	},
 	methods: {
 		...mapActions('user', ['register']),
-		onRegister() {
+		onRegister(e) {
+			e.preventDefault();
 			this.register(this.form);
 		},
 	},
