@@ -23,6 +23,10 @@ export const connectSocket = context => {
 				},
 			});
 
+			socket.on('error', error => {
+				console.error('Error de WebSocket:', error);
+			});
+
 			socket.on('notificationCreatePost', data => {
 				context.commit('user/ADD_NOTIFICATION', data?.notification, {
 					root: true,
