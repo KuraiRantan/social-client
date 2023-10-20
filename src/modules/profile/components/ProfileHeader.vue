@@ -5,7 +5,8 @@
 				<span>{{ firstName }} {{ lastName }}</span>
 				<span>@{{ username }}</span>
 			</p>
-			<p>{{ birthDate }} - 24</p>
+			<p>{{ birthDate }}</p>
+			<!-- TODO:Add calculate age -->
 			<p>{{ country }} - {{ city }}</p>
 			<div v-if="!itsMyProfile">
 				<button
