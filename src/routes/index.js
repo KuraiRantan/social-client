@@ -38,8 +38,10 @@ router.beforeEach(async (to, from, next) => {
 	const isAuthenticated = await store.dispatch(
 		'user/fetchVerifyAuthentication'
 	);
-	if (isAuthenticated && !to.path.startsWith('/auth')) {
+	if (!store.state.socket.socket) {
 		store.dispatch('socket/connectSocket');
+	}
+	if (isAuthenticated && !to.path.startsWith('/auth')) {
 		return next();
 	}
 	if (isAuthenticated && to.path.startsWith('/auth')) {
