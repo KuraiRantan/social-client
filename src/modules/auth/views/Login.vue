@@ -28,7 +28,6 @@
 					</tbody>
 				</table>
 			</div>
-			{{ isLoadingLogin }}
 			<form action="">
 				<input
 					v-model="form.identifier"
