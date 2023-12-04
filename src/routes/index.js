@@ -35,10 +35,13 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-	const isAuthenticated = await store.dispatch(
-		'user/fetchVerifyAuthentication'
-	);
-	if (!store.state.socket.socket) {
+	let isAuthenticated = store.state.user.isLoggedIn;
+	if (!isAuthenticated) {
+		isAuthenticated = await store.dispatch(
+			'user/fetchVerifyAuthentication'
+		);
+	}
+	if (isAuthenticated && !store.state.socket.socket) {
 		store.dispatch('socket/connectSocket');
 	}
 	if (isAuthenticated && !to.path.startsWith('/auth')) {

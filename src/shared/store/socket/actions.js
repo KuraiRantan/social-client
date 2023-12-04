@@ -10,7 +10,7 @@ import { io } from 'socket.io-client';
 //     }
 // }
 
-export const connectSocket = context => {
+export const connectSocket = async context => {
 	try {
 		let socket = null;
 		const token = localStorage.getItem('token');
