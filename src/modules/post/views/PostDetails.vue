@@ -1,38 +1,62 @@
 <template>
-	<main class="main-container">
+	<Loader v-if="isLoadingPost" />
+	<main
+		v-else
+		class="main-container"
+	>
 		<div class="post-container overflow">
-			<Post
-				:key="getPost?.id"
-				:img-profile="getPost?.imgProfile"
-				:name="`${getPost?.User?.firstName} ${getPost?.User?.lastName}`"
-				:username="getPost?.User?.username"
-				:content="getPost?.content"
-				:posted-at="getPost?.posted_at"
-			/>
+			<Suspense>
+				<template #default>
+					<Post
+						:key="getPost?.id"
+						:img-profile="getPost?.imgProfile"
+						:name="`${getPost?.User?.firstName} ${getPost?.User?.lastName}`"
+						:username="getPost?.User?.username"
+						:content="getPost?.content"
+						:posted-at="getPost?.posted_at"
+					/>
+				</template>
+				<template #fallback>
+					<Loader />
+				</template>
+			</Suspense>
 		</div>
 		<div class="comment-container overflow">
 			<MyPostCommentBox
 				type-box="comment"
-				:post_id="$route.params?.postId"
+				:post-id="$route.params?.postId"
 			/>
-			<Post
+			<div
 				v-for="{ id, User, content, commented_at } in getComments"
 				:key="id"
-				:img-profile="User?.imgProfile"
-				:name="`${User?.firstName} ${User?.lastName}`"
-				:username="User?.username"
-				:content="content"
-				:posted-at="commented_at"
-			/>
+			>
+				<Suspense>
+					<template #default>
+						<Post
+							:img-profile="User?.imgProfile"
+							:name="`${User?.firstName} ${User?.lastName}`"
+							:username="User?.username"
+							:content="content"
+							:posted-at="commented_at"
+						/>
+					</template>
+					<template #fallback>
+						<Loader />
+					</template>
+				</Suspense>
+			</div>
 		</div>
 	</main>
 </template>
 
 <script>
 import { defineAsyncComponent } from 'vue';
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
+import Loader from '@/shared/components/Loader.vue';
+
 export default {
 	components: {
+		Loader: Loader,
 		Post: defineAsyncComponent(() =>
 			import(
 				/* webpackChunkName: "PostContent" */ '@/shared/components/Post.vue'
@@ -52,6 +76,7 @@ export default {
 		next();
 	},
 	computed: {
+		...mapState('post', ['isLoadingPost', 'isErrorPost']),
 		...mapGetters('post', ['getPost', 'getComments']),
 	},
 	mounted() {
@@ -59,7 +84,7 @@ export default {
 		this.fetchPost(postId);
 	},
 	methods: {
-		...mapActions('post', ['fetchPost', 'fetchComments']),
+		...mapActions('post', ['fetchPost']),
 	},
 };
 </script>

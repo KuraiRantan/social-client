@@ -1,24 +1,19 @@
 <template>
 	<!-- <img alt="Vue logo" src="./assets/logo.png" /> -->
-	<Navbar v-if="!isAuth" />
+	<Navbar v-if="isLoggedIn" />
 	<router-view />
 </template>
 
 <script>
-import { defineAsyncComponent } from 'vue';
+import Navbar from '@/shared/components/Navbar.vue';
+import { mapState } from 'vuex';
 export default {
 	name: 'App',
 	components: {
-		Navbar: defineAsyncComponent(() =>
-			import(
-				/* webpackChunkName: "Navbar" */ '@/shared/components/Navbar.vue'
-			)
-		),
+		Navbar: Navbar,
 	},
 	computed: {
-		isAuth() {
-			return this.$route.fullPath.startsWith('/auth');
-		},
+		...mapState('user', ['isLoggedIn']),
 	},
 };
 </script>

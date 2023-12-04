@@ -1,8 +1,6 @@
+import PostDetails from '@/modules/post/views/PostDetails.vue';
 export default {
 	name: 'post-details',
-	component: () =>
-		import(
-			/* webpackChunkName: "PostDetails" */ '@/modules/post/views/PostDetails.vue'
-		),
+	component: PostDetails,
 	children: [],
 };

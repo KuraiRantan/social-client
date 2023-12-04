@@ -218,14 +218,10 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex';
-import { defineAsyncComponent } from 'vue';
+import Notification from '@/shared/components/Notification.vue';
 export default {
 	components: {
-		Notification: defineAsyncComponent(() =>
-			import(
-				/* webpackChunkName: "Notification" */ '@/shared/components/Notification.vue'
-			)
-		),
+		Notification: Notification,
 	},
 	data() {
 		return {

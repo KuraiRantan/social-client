@@ -1,5 +1,9 @@
 <template>
-	<div class="chat">
+	<Loader v-if="isLoadingMessages" />
+	<div
+		v-else
+		class="chat"
+	>
 		<p class="user-info">
 			<span class="name"
 				>{{ selectedFriend?.firstName }}
@@ -46,14 +50,18 @@
 		<div class="send-message">
 			<input
 				id=""
+				ref="inputContent"
 				v-model="content"
 				class="input-message"
 				type="text"
 				name=""
 				placeholder="Enter message..."
+				:disabled="isLoadingSendMessage"
 				@keydown="handleSendMessage"
 			/>
+			<Loader v-if="isLoadingSendMessage" />
 			<button
+				v-else
 				class="btn-send-message"
 				@click="handleSendMessage"
 			>
@@ -64,9 +72,14 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 import { formatDateTime } from '@/helpers/dateFormats';
+import Loader from '@/shared/components/Loader.vue';
+
 export default {
+	components: {
+		Loader: Loader,
+	},
 	async beforeRouteUpdate(to, from, next) {
 		const username = to.params.username;
 		await this.fetchMessages(username);
@@ -85,6 +98,12 @@ export default {
 		};
 	},
 	computed: {
+		...mapState('chat', [
+			'isLoadingMessages',
+			'isErrorMessages',
+			'isLoadingSendMessage',
+			'isErrorSendMessages',
+		]),
 		...mapGetters('chat', ['getMessages']),
 		...mapGetters('user', ['getUserLoged']),
 		getUserLogedId() {
@@ -118,6 +137,7 @@ export default {
 				});
 				this.content = '';
 				this.scrollToBottom();
+				this.$refs?.inputContent.focus();
 			}
 		},
 		formatDateTime(dateTimeString) {

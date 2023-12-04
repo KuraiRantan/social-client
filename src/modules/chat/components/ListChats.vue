@@ -71,7 +71,6 @@ export default {
 
 .list-chats {
 	width: 100%;
-	border-right: 0.5px solid gray;
 	height: 100%;
 }
 .search-user {

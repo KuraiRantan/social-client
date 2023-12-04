@@ -13,15 +13,27 @@
 				typeBox === 'post' ? 'Post content' : 'Comment content'
 			"
 		></textarea>
-		<button @click="typeBox === 'post' ? onSendPost() : onSendComment()">
+		<Loader
+			v-if="isLoadingCreatePost || isLoadingCreateComment"
+			color="#028dff"
+		/>
+		<button
+			v-else
+			@click="typeBox === 'post' ? onSendPost() : onSendComment()"
+		>
 			SEND
 		</button>
 	</div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
+import Loader from '@/shared/components/Loader.vue';
+
 export default {
+	components: {
+		Loader: Loader,
+	},
 	props: {
 		typeBox: {
 			type: String,
@@ -46,6 +58,8 @@ export default {
 		};
 	},
 	computed: {
+		...mapState('post', ['isLoadingCreateComment', 'isErrorCreateComment']),
+		...mapState('profile', ['isLoadingCreatePost', 'isErrorCreatePost']),
 		...mapGetters('user', ['getUserLoged']),
 	},
 	methods: {

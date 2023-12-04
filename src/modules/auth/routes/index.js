@@ -1,23 +1,20 @@
+import AuthLayout from '@/modules/auth/layouts/AuthLayout.vue';
+import Login from '@/modules/auth/views/Login.vue';
+import Register from '@/modules/auth/views/Register.vue';
+
 export default {
 	name: 'auth',
-	component: () =>
-		import(
-			/* webpackChunkName: "AuthLayout" */ '../layouts/AuthLayout.vue'
-		),
+	component: AuthLayout,
 	children: [
 		{
 			path: 'login',
 			name: 'auth-login',
-			component: () =>
-				import(/* webpackChunkName: "Login" */ '../views/Login.vue'),
+			component: Login,
 		},
 		{
 			path: 'register',
 			name: 'auth-register',
-			component: () =>
-				import(
-					/* webpackChunkName: "Register" */ '../views/Register.vue'
-				),
+			component: Register,
 		},
 	],
 };

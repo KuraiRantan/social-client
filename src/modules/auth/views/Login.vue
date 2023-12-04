@@ -28,6 +28,7 @@
 					</tbody>
 				</table>
 			</div>
+			{{ isLoadingLogin }}
 			<form action="">
 				<input
 					v-model="form.identifier"
@@ -44,12 +45,15 @@
 					autocomplete="current-password"
 				/>
 				<button
+					v-if="!isLoadingLogin"
 					type="submit"
 					class="button-auth"
 					@click="onLogin"
 				>
 					LOGIN
 				</button>
+				<Loader v-else />
+				<p v-if="isErrorLogin !== null">{{ isErrorLogin }}</p>
 			</form>
 			<div>
 				<router-link :to="{ name: 'auth-register' }"
@@ -64,8 +68,12 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
+import Loader from '@/shared/components/Loader.vue';
 export default {
+	components: {
+		Loader: Loader,
+	},
 	data() {
 		return {
 			form: {
@@ -73,6 +81,9 @@ export default {
 				password: '',
 			},
 		};
+	},
+	computed: {
+		...mapState('user', ['isLoadingLogin', 'isErrorLogin']),
 	},
 	methods: {
 		...mapActions('user', ['login']),
